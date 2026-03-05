@@ -1,16 +1,18 @@
-# 🐶 E-commerce Sales Data Analysis
+# 🐶 Pet Store E-commerce Sales Analysis
 
 ## 📌 Project Overview
+This project analyzes e-commerce sales data using **Python, Pandas, MySQL, and Matplotlib**.
 
-This project analyzes e-commerce sales data using **Python, Pandas, and MySQL**.
-The goal is to understand product sales performance and identify key revenue drivers.
+The objective of this analysis is to identify **top-selling products, revenue trends, and purchasing patterns** in an online pet store.
+
+---
 
 ## 📊 Dataset
 
-The dataset contains order transaction data from an e-commerce store.
+The dataset contains simulated transaction records from an e-commerce pet store including products such as dog snacks, toys, and accessories.
 
 | Column       | Description        |
-| ------------ | ------------------ |
+|--------------|--------------------|
 | order_id     | Order ID           |
 | order_date   | Date of order      |
 | product_name | Product name       |
@@ -20,17 +22,19 @@ The dataset contains order transaction data from an e-commerce store.
 
 Sales column was calculated as:
 
-sales = price × quantity
+```
+sales = price * quantity
+```
 
 ---
 
 ## 🛠 Tech Stack
 
-* Python
-* Pandas
-* MySQL
-* Matplotlib
-* Jupyter Notebook
+- Python  
+- Pandas  
+- MySQL  
+- Matplotlib  
+- Jupyter Notebook (.ipynb)
 
 ---
 
@@ -40,36 +44,102 @@ sales = price × quantity
 
 Load data from MySQL database using pandas.
 
+```python
+import pandas as pd
+import pymysql
+
+conn = pymysql.connect(
+    host='localhost',
+    user='root',
+    password='your_password',
+    db='ecommerce'
+)
+
+df = pd.read_sql("SELECT * FROM orders", conn)
+```
+
+---
+
 ### 2️⃣ Data Cleaning
 
-Create sales column and check data structure.
+Create the sales column.
+
+```python
+df["sales"] = df["price"] * df["quantity"]
+```
+
+Check dataset structure.
+
+```python
+df.info()
+df.describe()
+```
+
+---
 
 ### 3️⃣ Exploratory Data Analysis (EDA)
 
-Key analysis performed:
+Product sales frequency.
 
-* Product sales frequency
-* Total sales by product
-* Sales distribution
-* Sales visualization
+```python
+df["product_name"].value_counts()
+```
+
+Total sales by product.
+
+```python
+df.groupby("product_name")["sales"].sum()
+```
+
+---
+
+## 🗄 SQL Analysis
+
+Example SQL queries used for analysis.
+
+### Total Sales by Product
+
+```sql
+SELECT 
+    product_name,
+    SUM(price * quantity) AS total_sales
+FROM orders
+GROUP BY product_name
+ORDER BY total_sales DESC;
+```
+
+### Top Selling Products
+
+```sql
+SELECT 
+    product_name,
+    SUM(quantity) AS total_quantity
+FROM orders
+GROUP BY product_name
+ORDER BY total_quantity DESC
+LIMIT 5;
+```
 
 ---
 
 ## 📊 Key Insights
 
-* **Dog Snack** generated the highest total revenue.
-* Snack products showed higher purchase frequency.
-* Some products have higher price but lower sales volume.
+- **Dog Snack generated the highest total revenue**
+- Snack products showed **higher purchase frequency**
+- Some higher priced products had **lower sales volume**
 
 ---
 
 ## 📉 Visualization
 
-Example visualization:
+### Sales by Product
+![sales_chart](images/sales_by_product.png)
 
-Sales by product
+### Sales Trend
+![sales_trend](images/sales_trend.png)
 
-(bar chart generated using matplotlib)
+### Top Selling Products
+![top_products](images/top_products.png)
 
 ---
 
@@ -80,14 +150,18 @@ data-analysis-portfolio
 │
 ├─ projects
 │   └─ 01-ecommerce-analysis
-│       ├─ analysis.ipynb
-│       └─ README.md
+│       ├─ ecommerce_sales_analysis.ipynb
+│       ├─ README.md
+│       └─ images
+│           ├─ sales_by_product.png
+│           ├─ sales_trend.png
+│           └─ top_products.png
 ```
 
 ---
 
 ## 🚀 Future Improvements
 
-* Monthly sales trend analysis
-* Customer segmentation
-* Product recommendation analysis
+- Monthly sales trend analysis
+- Customer segmentation
+- Product recommendation analysis
