@@ -133,7 +133,7 @@ LIMIT 5;
 ## 📉 Visualization
 
 ### Sales by Product
-![sales_chart](images/sales_by_product.png)
+![sales_by_product](images/sales_by_product.png)
 
 ### Sales Trend
 ![sales_trend](images/sales_trend.png)
