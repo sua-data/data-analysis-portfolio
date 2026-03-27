@@ -1,0 +1,9 @@
+uvicorn
+fastapi
+pymysql
+sqlalchemy
+pandas
+matplotlib
+openpyxl
+scikit-learn
+joblib

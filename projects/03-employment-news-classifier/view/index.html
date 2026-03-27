@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>News group</title>
+        <link rel="icon" href="/view/img/favicon.png?v=1">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body{
+            background-color: #f5f7fb;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .container{
+            width: 600px;
+            margin: 80px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        h2{
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        p{
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        textarea{
+            width: 570px;
+            height: 180px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            font-size: 15px;
+            resize: none;
+            margin-top: 10px;
+        }
+
+        .action{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        #result{
+            font-weight: bold;
+            color: #333;
+        }
+
+        button, a{
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-right: 5px;
+        }
+
+        button:hover, a:hover{
+            background-color: #357abd;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>고용기사 분류기 🤖</h1>
+            <p>기사 제목을 입력하면 AI가 분류해줍니다.</p>
+
+            <div class="btn-area">
+                <a href="/insert">데이터 넣기</a>
+                <button onclick="learn()">학습 시작</button>
+                <button onclick="location.href='/showGraphPage'">📊 그래프 보기</button>
+            </div>
+
+            <textarea id="news" placeholder="기사 제목 입력"></textarea>
+
+            <div class="action">
+                <button onclick="predict()">🔍 분류하기</button>
+                <div id="result"></div>
+            </div>
+            
+        </div>
+
+        <script>
+            async function learn(){
+                let {data} = await axios.get("/learn");
+                console.log(data);
+            }
+
+            async function predict(){
+                let {data} = await axios.post("/predict",{'content':$('#news').val()});
+                $('#result').html(`결과: ${data.category}`);
+            }
+        </script>
+    </body>
+</html>
